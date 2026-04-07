@@ -1,0 +1,91 @@
+# =========================
+# 🔐 ENVIRONMENT VARIABLES
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# 📦 NODE / FRONTEND
+# =========================
+node_modules/
+.next/
+dist/
+build/
+out/
+coverage/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# =========================
+# 🐍 PYTHON / BACKEND
+# =========================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.db
+.venv/
+venv/
+env/
+
+# =========================
+# 🤖 ML / RAG FILES
+# =========================
+# Embeddings & vector stores (VERY IMPORTANT)
+*.faiss
+*.index
+*.npy
+*.npz
+*.pkl
+*.pickle
+chroma/
+faiss_index/
+vectorstore/
+embeddings/
+
+# Uploaded / processed documents
+data/
+uploads/
+documents/
+*.pdf
+*.docx
+*.txt
+
+# Model files
+models/
+*.bin
+*.pt
+
+# =========================
+# ☁️ DEPLOYMENT
+# =========================
+.vercel/
+.render/
+.gcloud/
+.firebase/
+
+# =========================
+# 🧠 CACHE
+# =========================
+.cache/
+tmp/
+temp/
+
+# =========================
+# 💻 IDE / EDITOR
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# 🍏 OS FILES
+# =========================
+.DS_Store
+Thumbs.db

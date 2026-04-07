@@ -1,0 +1,59 @@
+<!-- frontend/index.html -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>RAG Chatbot</title></head>
+<body>
+  <h1>📄 RAG Chatbot</h1>
+  <input id="file" type="file" />
+  <button onclick="upload()">Upload PDF</button>
+  <hr/>
+  <div id="chat"></div>
+
+  <input id="q" placeholder="Ask something..." />
+  <button onclick="ask()">Ask</button>
+
+<script>
+async function upload(){
+  const f = document.getElementById('file').files[0];
+  const fd = new FormData();
+  fd.append('file', f);
+
+  const res = await fetch('http://127.0.0.1:5000/upload',
+   { method: 'POST', body: fd });
+
+  const j = await res.json();
+  <!-- before production -->
+  
+  <!-- document.getElementById('out').textContent = JSON.stringify(j, null, 2); -->
+  alert("Uploaded: " + j.chunks + " chunks");
+}
+async function ask(){
+  const q = document.getElementById('q').value;
+
+  const chat = document.getElementById('chat');
+  chat.innerHTML += `<p><b>You:</b> ${q}</p>`;
+
+  const res = await fetch('http://127.0.0.1:5000/ask', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ query: q }) // ✅ FIXED
+  });
+
+  const j = await res.json();
+  console.log(j);
+
+  if (j.error) {
+    document.getElementById('out').textContent = "Error: " + j.error;
+  } else {
+    document.getElementById('out').textContent =
+      j.answer + '\n\nSources:\n' + (j.sources?.join('\n\n') || 'None');
+      chat.innerHTML += `
+      <p><b>AI:</b> ${j.answer}</p>
+      <p><i>Sources: ${j.sources.join(", ")}</i></p>
+      <hr/>
+    `;
+  }
+}
+</script>
+</body>
+</html>
