@@ -18,7 +18,7 @@ A Retrieval-Augmented Generation (RAG) chatbot that answers questions based on u
 ## 📦 Setup
 
 ### 1. Clone repo
-git clone https://github.com/yourusername/rag-chatbot.git
+git clone https://github.com/SamuelOluyemi/rag-chatbot.git
 cd rag-chatbot/backend
 
 ### 2. Install dependencies
