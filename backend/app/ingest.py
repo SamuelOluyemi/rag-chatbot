@@ -59,7 +59,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 EMBED_MODEL = "text-embedding-3-small"   # example; check model dims (e.g., 1536)
 # EMBED_DIM = 1536
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+model = SentenceTransformer("all-MiniLM-L6-v2", cache_folder="./models")
 
 def extract_text_from_pdf(path):
     reader = PdfReader(path)
