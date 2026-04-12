@@ -1,8 +1,8 @@
 # backend/Dockerfile
 FROM python:3.10-slim
 
-WORKDIR /app
-COPY ./backend/requirements.txt .
+WORKDIR /rag-chatbotPy
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./backend/app ./main
