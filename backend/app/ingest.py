@@ -48,7 +48,7 @@ from openai import OpenAI
 
 from sentence_transformers import SentenceTransformer
 import numpy as np
-from app.embeddings_store import VectorStore
+from .embeddings_store import VectorStore
 from tqdm import tqdm
 
 # OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
