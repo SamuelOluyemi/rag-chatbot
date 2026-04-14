@@ -54,7 +54,10 @@ uploads/
 documents/
 *.pdf
 *.docx
-*.txt
+
+# *.txt
+# # don't ignore this file when ignoring all .txt files
+# !requirements.txt
 
 # Model files
 models/
