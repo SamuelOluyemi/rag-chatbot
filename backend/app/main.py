@@ -19,7 +19,7 @@ client = OpenAI(api_key=os.getenv(OPENAI_API_KEY))  # API key is read from confi
 # Enable CORS (frontend fix)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://rag-chatbot-one-weld.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
