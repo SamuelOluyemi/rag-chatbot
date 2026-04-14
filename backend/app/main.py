@@ -7,9 +7,9 @@ import shutil
 import os
 from openai import OpenAI
 
-from app.ingest import extract_text_from_pdf, chunk_text, get_embeddings, ingest_file
-from app.embeddings_store import VectorStore
-from app.config import LLM_MODEL, OPENAI_API_KEY, TOP_K
+from .ingest import extract_text_from_pdf, chunk_text, get_embeddings, ingest_file
+from .embeddings_store import VectorStore
+from .config import LLM_MODEL, OPENAI_API_KEY, TOP_K
 
 load_dotenv()
 
