@@ -5,7 +5,8 @@ WORKDIR /backend/app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY ./backend/app ./main
+# COPY ./backend/app ./main
+COPY . .
 ENV PORT=8080
 EXPOSE 8080
 
