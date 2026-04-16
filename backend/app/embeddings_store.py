@@ -53,13 +53,15 @@ class VectorStore:
             
             if os.path.exists(meta_path):
                 with open(meta_path, "rb") as f:
-                    self.metadata = pickle.load(f)
+                    self.texts = pickle.load(f) # assign to self.texts directly
             else:
+                self.texts = []
                 print("⚠️ meta.pkl missing, resetting texts")
                 
         else:
             self.index = faiss.IndexFlatL2(dim)
-            # self.metadata = []  # list of dicts { "text": ..., "source": ... }
+            self.texts = []
+            print("⚠️ faiss.index missing, starting fresh")
 
         # # Always keep texts synced for search
         # self.texts = [m["text"] for m in self.metadata] if self.metadata else []
