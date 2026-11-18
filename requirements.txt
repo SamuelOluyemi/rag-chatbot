@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pypdf
+sentence-transformers
+faiss-cpu
+numpy
+python-dotenv
+openai
+google-cloud-storage
+pinecone-client

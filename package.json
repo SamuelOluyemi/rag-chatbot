@@ -1,0 +1,12 @@
+{
+  "name": "rag-fullstack",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx concurrently \"cd backend && . venv/bin/activate && uvicorn app.main:app --reload --port 5000\" \"cd frontend && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "vite": "^8.0.3"
+  }
+}
