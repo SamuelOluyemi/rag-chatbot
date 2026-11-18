@@ -1,54 +1,37 @@
-// // Before deployment
-// import axios from "axios";
-
-// export const API = "http://127.0.0.1:5000"; // change after deploy
-
-// export const uploadFile = async (file) => {
-//   const formData = new FormData();
-//   formData.append("file", file);
-
-//   return axios.post(`${API}/upload`, formData);
-// };
-
-// export const askQuestion = async (question) => {
-//   return axios.post(`${API}/ask`, { question });
-// };
-
-// After deployment
 import axios from "axios";
 
-export const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
-const axiosInstance = axios.create({
-  baseURL: API,
-  headers: {
-    "Content-Type": "application/json",
-  },
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "/api",
+  timeout: 120000,
 });
 
 export const uploadFile = async (file) => {
   const formData = new FormData();
   formData.append("file", file);
 
-  try {
-    const res = await axiosInstance.post("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return res.data;
-  } catch (error) {
-    console.error("Upload error:", error);
-    throw error;
-  }
+  const response = await api.post("/documents/upload", formData);
+
+  return response.data;
 };
 
 export const askQuestion = async (question) => {
-  try {
-    const res = await axiosInstance.post("/ask", { question });
-    return res.data;
-  } catch (error) {
-    console.error("Ask error:", error);
-    throw error;
+  const response = await api.post("/chat/", { question });
+
+  return response.data;
+};
+
+export const getErrorMessage = (error) => {
+  if (error.response?.data?.detail) {
+    return error.response.data.detail;
   }
+
+  if (error.code === "ECONNABORTED") {
+    return "The request took too long. Please try again.";
+  }
+
+  if (!error.response) {
+    return "Cannot connect to the backend. Make sure the FastAPI server is running.";
+  }
+
+  return "Something went wrong. Please try again.";
 };

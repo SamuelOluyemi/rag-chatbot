@@ -2,9 +2,12 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      input: "index.html", // Only if not in root
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8000",
+        changeOrigin: true,
+      },
     },
   },
 });
