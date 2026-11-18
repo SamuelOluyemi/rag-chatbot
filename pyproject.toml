@@ -1,0 +1,28 @@
+[project]
+name = "rag-chatbot"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "alembic>=1.20.1",
+    "fastapi>=0.164.0",
+    "httpx>=0.28.1",
+    "openai>=3.55.1",
+    "pgvector>=0.5.1",
+    "psycopg[binary]>=3.3.9",
+    "pydantic-settings>=2.16.3",
+    "pymupdf>=2.1",
+    "python-multipart>=0.0.34",
+    "sentence-transformers>=6.3.0",
+    "sqlalchemy>=2.1.9",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "pytest-mock>=3.17.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+python_files = ["test_*.py"]

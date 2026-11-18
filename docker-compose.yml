@@ -1,0 +1,22 @@
+
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    container_name: rag-chatbot-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ragchatbot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ragchatbot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
