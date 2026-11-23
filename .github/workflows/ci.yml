@@ -1,4 +1,4 @@
-name: RAG Chatbot CI
+name: RAG Chatbot CI/CD
 
 on:
   push:
@@ -27,3 +27,30 @@ jobs:
 
       - name: Run tests
         run: uv run pytest
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VM_SSH_KEY }}
+
+      - name: Configure SSH host verification
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          echo "${{ secrets.VM_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy to Google Cloud VM
+        run: |
+          ssh -o BatchMode=yes ${{ secrets.VM_USER }}@${{ secrets.VM_HOST }} << 'EOF'
+            cd ~/rag-chatbot
+            git pull --rebase origin main
+            docker compose up -d --build
+            docker compose exec -T backend alembic upgrade head
+          EOF
