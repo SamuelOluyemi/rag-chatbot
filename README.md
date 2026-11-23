@@ -200,6 +200,15 @@ Generation settings currently include a 256-token output limit and a temperature
 
 **Ubuntu Linux** provides the production operating system.
 
+**GitHub Actions**
+
+GitHub Actions automates continuous integration and deployment.
+The workflow runs backend tests on pushes and pull requests
+targeting the main branch. When changes are pushed to main
+and all tests pass, it connects to the Google Compute Engine
+VM over SSH, pulls the latest code, rebuilds the Docker
+services and applies database migrations.
+
 ## Project Structure
 
 ```text
@@ -446,7 +455,44 @@ The current test suite contains 29 tests covering:
 
 ## Production Deployment
 
-The application is deployed on Google Cloud Platform using Google Compute Engine.
+The application was initially deployed on Google Cloud Platform using Google Compute Engine. We improved the workflow with the introduction of GitHub Actions as shown below:
+
+### Automated CI/CD Pipeline
+
+The project uses GitHub Actions to automate backend testing
+and application deployment.
+
+**Continuous Integration (CI)**
+
+On pushes and pull requests targeting the `main` branch:
+
+1. GitHub Actions checks out the repository.
+2. Sets up Python 3.12.
+3. Installs project dependencies using uv and uv.lock.
+4. Executes the backend pytest test suite.
+5. Reports the workflow result in GitHub Actions.
+
+**Continuous Deployment (CD)**
+
+After successful tests on a push to `main`:
+
+1. GitHub Actions authenticates with the GCE VM using SSH.
+2. Connects using deployment credentials stored in GitHub Secrets.
+3. Pulls the latest repository changes.
+4. Rebuilds and restarts the Docker Compose services.
+5. Applies pending database migrations using Alembic.
+
+**Deployment security**
+
+- SSH authentication uses a dedicated Ed25519 deployment key.
+- Private credentials are stored in GitHub repository secrets.
+- SSH host verification uses a known-hosts entry.
+- Production environment variables remain on the VM and outside version control.
+
+**Deployment trigger**
+
+- Push to `main`: runs tests and deploys if tests pass.
+- Pull request targeting `main`: runs tests without deploying.
 
 ### Production infrastructure
 
@@ -544,7 +590,6 @@ Potential development areas include:
 - Improved retrieval with hybrid search and reranking.
 - Streaming LLM responses.
 - Better generation performance and inference optimization.
-- Automated deployment through GitHub Actions.
 - Infrastructure provisioning with Terraform.
 - Application monitoring, structured logging, and alerting.
 - Automated database backups and recovery procedures.
