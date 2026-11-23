@@ -1,9 +1,12 @@
 
 import httpx
+import os
 
-
-OLLAMA_API_URL = "http://localhost:11434/api/generate"
-OLLAMA_MODEL = "llama3.1:8b"
+# OLLAMA_API_URL = "http://localhost:11434/api/generate"
+# Change the model name to the one you want to use. For example, "llama3.1:8b" or "llama3.1:13b".
+# OLLAMA_MODEL = "llama3.1:8b"
+OLLAMA_API_URL = os.getenv("OLLAMA_API_URL") or "http://localhost:11434/api/generate"
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL") or "llama3.2:3b"
 
 
 def generate_answer(
@@ -54,13 +57,18 @@ Answer:
         "model": OLLAMA_MODEL,
         "prompt": prompt,
         "stream": False,
+        "options": {
+            "num_predict": 256,
+            "temperature": 0.2,
+        },
+        "keep_alive": "30m",
     }
 
     try:
         response = httpx.post(
             OLLAMA_API_URL,
             json=payload,
-            timeout=120.0,
+            timeout=600.0,
         )
 
         response.raise_for_status()
